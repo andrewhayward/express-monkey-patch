@@ -47,12 +47,18 @@ RouterPrototype.prototype = ExpressRouter.prototype;
 Router.prototype = new RouterPrototype();
 Router.prototype.constructor = Router;
 
-Router.prototype.route = function (method, path, name, callbacks) {
+Router.prototype.route = function (method, path) {
   method = method.toLowerCase();
 
-  if (!callbacks) {
-    callbacks = name;
-    name = null;
+  var name = null;
+  var callbacks = null;
+
+  if (arguments.length >= 3 && (typeof arguments[2] == 'string' || arguments[2] instanceof String)) {
+    name = arguments[2];
+    callbacks = Array.prototype.slice.call(arguments, 3);
+  }
+  else {
+    callbacks = Array.prototype.slice.call(arguments, 2);
   }
 
   var ret = ExpressRouter.prototype.route.call(this, method, path, callbacks);
