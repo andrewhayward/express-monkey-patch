@@ -45,13 +45,11 @@ function Router (app) {
 Router.prototype = Object.create(ExpressRouter.prototype);
 Router.prototype.constructor = Router;
 
-Router.prototype.route = function (method, path, name, callbacks) {
+Router.prototype.route = function (method, path, name, callback) {
   method = method.toLowerCase();
 
-  if (!callbacks) {
-    callbacks = name;
-    name = null;
-  }
+  var callbacks = Array.prototype.slice.call(arguments, 2);
+  name = (typeof callbacks[0] !== 'function') ? '' + callbacks.shift() : null;
 
   var ret = ExpressRouter.prototype.route.call(this, method, path, callbacks);
 
