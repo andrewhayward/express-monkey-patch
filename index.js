@@ -42,9 +42,7 @@ function Router (app) {
   router._lookup = {};
 }
 
-function RouterPrototype () {};
-RouterPrototype.prototype = ExpressRouter.prototype;
-Router.prototype = new RouterPrototype();
+Router.prototype = Object.create(ExpressRouter.prototype);
 Router.prototype.constructor = Router;
 
 Router.prototype.route = function (method, path, name, callbacks) {
